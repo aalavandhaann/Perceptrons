@@ -1,4 +1,11 @@
-GROUND_TRUTH: list[float] = [
+GROUND_TRUTH_AND: list[list[float]] = [
+    [0, 0, 0],
+    [0, 1, 0],
+    [1, 0, 0],
+    [1, 1, 1]
+]
+
+GROUND_TRUTH_OR: list[list[float]] = [
     [0, 0, 0],
     [0, 1, 1],
     [1, 0, 1],
@@ -15,12 +22,13 @@ def weightedSum(data: list[float], weights: list[float], bias: float):
     ws += bias
     return ws
 
-def updateWeights(data: list[float], weights: list[float], error: float, learning_rate: float):
-    new_weights = []
+def updateWeights(data: list[float], weights: list[float], error: float, learning_rate: float)->list[float]:
+    new_weights: list[float] = []
     for i, d in enumerate(data):
         weight: float = weights[i]
         new_weight: float = weight + ( learning_rate * error * d)
         new_weights.append(new_weight)
+
     return new_weights
 
 def updateBias(currentBias: float, learning_rate: float, error: float):
@@ -38,7 +46,7 @@ def predict(x1:float, x2: float, weights: list[float], bias: float):
 
     print(f'The AND table result for x1: {x1} && x2: {x2} is: {int(y_hat)}')
 
-def train(ground_truth: list, weights: list[float], bias: float = 0.0, learning_rate: float = 0):
+def train(ground_truth: list[list[float]], weights: list[float], bias: float = 0.0, learning_rate: float = 0):
     
     converged: bool = False
     epochs: int = 0
@@ -76,7 +84,7 @@ def train(ground_truth: list, weights: list[float], bias: float = 0.0, learning_
 
 
 if __name__ == '__main__':
-    weights, bias = train(GROUND_TRUTH, [0, 0], 0.0, 1.0)
+    weights, bias = train(GROUND_TRUTH_AND, [0, 0], 0.0, 1.0)
 
     while(True):
         x1: float = float(input('Enter the value for x1: '))
